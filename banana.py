@@ -56,6 +56,12 @@ def checkAdjacents(pointpoint,operation):
             adjacents.remove(pointback)
         elif pointfront > 99:
             adjacents.remove(pointback)
+    if pointpoint % 10 == 0:
+      if pointback in adjacents:
+        adjacents.remove(pointback)
+    if (pointpoint + 1) % 10 == 0:
+      if pointfront in adjacents:
+        adjacents.remove(pointfront)
     templist = list(adjacents)
     for i in adjacents:
         templist.append(i+10)
@@ -138,4 +144,6 @@ while True:
               if square.collidepoint(m1, m2):
                 print(whichoneisit)
                 squareText(whichoneisit,0,0,"flag")
+          elif event.button == 2:
+            print(s.join(grid))
   pygame.display.flip()
