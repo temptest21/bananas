@@ -9,24 +9,38 @@ s=""
 checked = []
 researched = []
 researchcache = []
+flagged = []
 def squareText(square,isItBomb,number,operation):
+  if operation == "flag":
+    if square not in researched:
+      if square not in flagged:
+        flagged.append(square)
+        text = font.render("P", True, colors[2])
+        screen.blit(text, (squares[square].x+7,squares[square].y-1))
+      else:
+        flagged.remove(square)
+        pygame.draw.rect(screen,white,[i,10+(59*mult),49,49])
   print(squares[square])
   if number == "stop":
     return
   if operation == "dig":
     if isItBomb == "*":
-      text = pygame.font.Font('freesansbold.ttf', 75).render("that was a bomb", True, colors[0])
-      screen.blit(text, (0,300))
-      y=int("banana")
+      text = font.render("*", True, colors[7])
+      screen.blit(text, (squares[square].x+13,squares[square].y+10))
+      print("dead btw")
+      return
     text = font.render(f"{isItBomb}", True, colors[number-1])
-    screen.blit(text, (squares[square].x,squares[square].y))
+    screen.blit(text, (squares[square].x+7,squares[square].y-1))
 def checkAdjacents(pointpoint,operation):
+    if pointpoint in flagged:
+        return
     if pointpoint in researched:
         return 
     researched.append(pointpoint)
     global adjacents
     if grid[pointpoint] == " x " or grid[pointpoint] == " x \n":
       squareText(pointpoint,"*",8,operation)
+      return
     adjacents = []
     pointback = pointpoint-1
     pointfront = pointpoint+1
@@ -91,7 +105,7 @@ while w < 20 :
     else:
         w -= 1
         continue
-font = pygame.font.Font('freesansbold.ttf', 32)
+font = pygame.font.Font('freesansbold.ttf', 60)
 iteration = 0   
 color= gray
 screen.fill(color)
