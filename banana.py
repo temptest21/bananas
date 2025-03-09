@@ -19,8 +19,7 @@ def squareText(square,isItBomb,number,operation):
         screen.blit(text, (squares[square].x+7,squares[square].y-1))
       else:
         flagged.remove(square)
-        pygame.draw.rect(screen,white,[i,10+(59*mult),49,49])
-  print(squares[square])
+        pygame.draw.rect(screen,white,[squares[square].x,squares[square].y,49,49])
   if number == "stop":
     return
   if operation == "dig":
@@ -123,27 +122,22 @@ for mult in range(10):
     rect = pygame.Rect(i, 10+(59*mult), 49, 49)
     squares.append(rect)
 while True:
+  m1, m2 = pygame.mouse.get_pos()
   for event in pygame.event.get():
       if event.type == pygame.QUIT:
           pygame.display.quit()
       if event.type == pygame.MOUSEBUTTONDOWN:
           if event.button == 1:
-              m1, m2 = pygame.mouse.get_pos()
-              print(m1,m2)
               whichoneisit=-1
               for square in squares:
                 whichoneisit+=1
                 if square.collidepoint(m1, m2):
-                  print(whichoneisit)
                   checkAdjacents(whichoneisit,"dig")
           elif event.button == 3:
-            m1, m2 = pygame.mouse.get_pos()
-            print(m1,m2)
             whichoneisit=-1
             for square in squares:
               whichoneisit+=1
               if square.collidepoint(m1, m2):
-                print(whichoneisit)
                 squareText(whichoneisit,0,0,"flag")
           elif event.button == 2:
             print(s.join(grid))
