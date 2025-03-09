@@ -32,6 +32,7 @@ def squareText(square,isItBomb,number,operation):
     text = font.render(f"{isItBomb}", True, colors[number-1])
     screen.blit(text, (squares[square].x+7,squares[square].y-1))
 def checkAdjacents(pointpoint,operation):
+    #i dont know why but this function just kinda hates working bruh
     if pointpoint in flagged:
         return
     if pointpoint in researched:
