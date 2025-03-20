@@ -37,41 +37,30 @@ def checkAdjacents(pointpoint,operation):
     if pointpoint in researched:
         return 
     researched.append(pointpoint)
-    global adjacents
     if grid[pointpoint] == " x " or grid[pointpoint] == " x \n":
       squareText(pointpoint,"*",8,operation)
       return
-    adjacents = []
     pointback = pointpoint-1
     pointfront = pointpoint+1
-    adjacents.append(pointback)
-    adjacents.append(pointfront)
-    if len(str(pointpoint)) > 1:
-        if pointback not in range(pointpoint-int(str(pointpoint)[1]),pointpoint-int(str(pointpoint)[1])+9):
-            adjacents.remove(pointback)
-        if pointfront not in range(pointpoint-int(str(pointpoint)[1]),pointpoint-int(str(pointpoint)[1])+9) or pointfront > 99:
-            adjacents.remove(pointfront)
-    else:
-        if pointback < 1:
-            adjacents.remove(pointback)
-        elif pointfront > 99:
-            adjacents.remove(pointback)
-    if pointpoint % 10 == 0:
-      if pointback in adjacents:
-        adjacents.remove(pointback)
-    if (pointpoint + 1) % 10 == 0:
-      if pointfront in adjacents:
-        adjacents.remove(pointfront)
-    templist = list(adjacents)
-    for i in adjacents:
-        templist.append(i+10)
-        templist.append(i-10)
-    templist.append(pointpoint+10)
-    templist.append(pointpoint-10)
-    for i in templist:
-        if i > 99 or i < 0:
-            templist.remove(i)
+    adjacents = [pointback,pointpoint,pointfront]
+    for i in adjacents[:]:
+      adjacents.append(i-10)
+      adjacents.append(i+10)
+    for i in adjacents[:]:
+      if i > 99 or i < 0:
+        adjacents.remove(i)
+      elif len(str(i)) > 1 or len(str(pointpoint)) > 1:
+        c1 = divmod(i,10)
+        c2 = divmod(pointpoint,10)
+        if abs(c1[0]-c2[0]) <= 1 and abs(c1[1]-c2[1]) <= 1:
+          pass
+        else:
+          adjacents.remove(i)
+      else:
+        if abs(i-pointpoint) >1:
+          adjacents.remove(i)
     digit = 0
+    templist = list(adjacents)
     for i in templist:
         if grid[i] == " x " or grid[i] == " x \n":
             digit += 1
@@ -99,7 +88,7 @@ black = (0,0,0)
 white = (235, 235, 235)
 gray = (30,30,30)
 colors = [red,orange,yellow,green,blue,purple,brown,black]
-while w < 20 :
+while w < 10 :
     w+=1
     check = randint(0,99)
     if check not in already:
