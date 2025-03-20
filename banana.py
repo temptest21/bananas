@@ -11,27 +11,31 @@ researched = []
 researchcache = []
 flagged = []
 def squareText(square,isItBomb,number,operation):
+  # Adds the text to the squares you  click on
   if operation == "flag":
     if square not in researched:
-      if square not in flagged:
+      if square not in flagged and len(flagged) <10:
         flagged.append(square)
         text = font.render("P", True, colors[2])
         screen.blit(text, (squares[square].x+7,squares[square].y-1))
-      else:
+        return
+      elif square in flagged:
         flagged.remove(square)
         pygame.draw.rect(screen,white,[squares[square].x,squares[square].y,49,49])
+        return
   if number == "stop":
     return
   if operation == "dig":
     if isItBomb == "*":
       text = font.render("*", True, colors[7])
       screen.blit(text, (squares[square].x+13,squares[square].y+10))
-      print("dead btw")
+      text = font.render("*", True, colors[7])
+      screen.blit(text, (squares[square].x+13,squares[square].y+10))
       return
     text = font.render(f"{isItBomb}", True, colors[number-1])
     screen.blit(text, (squares[square].x+7,squares[square].y-1))
 def checkAdjacents(pointpoint,operation):
-    #i dont know why but this function just kinda hates working bruh
+    # Counts mines on adjacent squares in the grid
     if pointpoint in flagged:
         return
     if pointpoint in researched:
@@ -70,6 +74,7 @@ def checkAdjacents(pointpoint,operation):
     squareText(pointpoint,digit,digit,operation)
     return
 for i in range(100):
+  # Draws grid
     if (i+1) % 10 == 0:
         refgrid.append(" . \n")
     else:
@@ -89,6 +94,7 @@ white = (235, 235, 235)
 gray = (30,30,30)
 colors = [red,orange,yellow,green,blue,purple,brown,black]
 while w < 10 :
+  # Adds mines to board
     w+=1
     check = randint(0,99)
     if check not in already:
@@ -111,6 +117,7 @@ for mult in range(10):
     rect = pygame.Rect(i, 10+(59*mult), 49, 49)
     squares.append(rect)
 while True:
+  # Detects clicking
   m1, m2 = pygame.mouse.get_pos()
   for event in pygame.event.get():
       if event.type == pygame.QUIT:
