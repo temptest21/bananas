@@ -35,6 +35,7 @@ def fruitLoop():
   fruits.append(fruit)
   fruitColors.append(color)
 fruitLoop()
+paused = False
 while True:
   # Detects clicking
   m1, m2 = pygame.mouse.get_pos()
@@ -71,6 +72,11 @@ while True:
               fruitColors.remove(fruitColors[index])
       elif event.type == pygame.MOUSEBUTTONUP:
         clicked = 0
+      elif event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_SPACE:
+          screen.fill(bg)
+        if event.key == pygame.K_p:
+          pass
   if frameCount < 200000:
     spawnChance = 3000
   else:
